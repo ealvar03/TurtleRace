@@ -1,9 +1,12 @@
 from turtle import Turtle, Screen
+import random
 
+is_race_on = False
 screen = Screen()
 screen.setup(width=500, height=400)
 user_bet = screen.textinput(title="Make your bet", prompt="Which turtle will win the race? Enter a colour: ")
 colours = ["red", "orange", "yellow", "green", "blue", "purple"]
+total_turtles = []
 
 
 def create_turtles(colour_list):
@@ -13,7 +16,6 @@ def create_turtles(colour_list):
     :param colour_list: It will bring a particular colour for each Turtle object.
     :return: It will return the final list with all the instances with a colour assigned.
     """
-    total_turtles = []
     count = 0
     while count < len(colour_list):
         new_turtle = Turtle(shape="turtle")
@@ -42,5 +44,20 @@ def initial_position(create_turtle):
 if __name__ == '__main__':
     print(user_bet)
     initial_position(create_turtles(colours))
-    print(create_turtles(colours))
+
+    if user_bet:
+        is_race_on = True
+    while is_race_on:
+        for turtle in total_turtles:
+            if turtle.xcor() > 230:
+                is_race_on = False
+                winning_turtle = turtle.pencolor()
+                if winning_turtle == user_bet:
+                    print(f"You've won! The {winning_turtle} is the winner!")
+                else:
+                    print(f"You've lost! The {winning_turtle} is the winner!")
+
+            random_distance = random.randint(0, 10)
+            turtle.forward(random_distance)
+
     screen.exitonclick()
